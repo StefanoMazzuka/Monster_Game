@@ -11,19 +11,41 @@
 
 <body>
     <div class="window">
-        <div id="health-percentage">100%</div>
-        <div id="health-bar-border">
-            <div id="health-bar"></div>
-        </div>
-        <table>
+        <table id="table-battle">
             <tr>
-                <td><button type="button" id="attack-one">Attack 1</button></td>
-                <td><button type="button" id="attack-two">Attack 2</button></td>
+                <td>
+                    <div class="health-percentage" id="enemy-health-percentage">100%</div>
+                    <div class="health-bar-border">
+                        <div class="health-bar" id="enemy-health-bar"></div>
+                    </div>
+                </td>
+                <td>Enemy</td>
             </tr>
             <tr>
-                <td><button type="button" id="attack-three">Attack 3</button></td>
-                <td><button type="button" id="attack-four">Attack 4</button></td>
+                <td><div id="separator"></div></td>
             </tr>
+            <tr>
+                <td>
+                    Player
+                    <table id="table-attacks">
+                        <tr>
+                            <td><button type="button" id="attack-one">Attack 1</button></td>
+                            <td><button type="button" id="attack-two">Attack 2</button></td>
+                        </tr>
+                        <tr>
+                            <td><button type="button" id="attack-three">Attack 3</button></td>
+                            <td><button type="button" id="attack-four">Attack 4</button></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <div class="health-percentage" id="player-health-percentage">100%</div>
+                    <div class="health-bar-border">
+                        <div class="health-bar" id="player-health-bar"></div>
+                    </div>
+                </td>
+            </tr>
+
         </table>
     </div>
 </body>

@@ -42,8 +42,8 @@ $(function () {
     });
 
     function updateHealthBar() {
-    $('#health-percentage').text(health + '%');
-    $('#health-bar').animate({
+    $('#enemy-health-percentage').text(health + '%');
+    $('#enemy-health-bar').animate({
         'width': health + "%"
         }, 400);
     }
