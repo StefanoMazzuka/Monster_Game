@@ -2,6 +2,7 @@
 
 $(function () {
 
+    let totalHealth = 100;
     let health = 100;
     let dead = 0;
     let attackOne = 10;
@@ -42,7 +43,7 @@ $(function () {
     });
 
     function updateHealthBar() {
-    $('#enemy-health-percentage').text(health + '% Enemy');
+    $('#enemy-health-percentage').text(health + '/' + totalHealth + ' Enemy');
     $('#enemy-health-bar').animate({
         'width': health + "%"
         }, 400);
