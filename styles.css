@@ -19,8 +19,8 @@ img {
 }
 
 .health-percentage {
-    width: 200px;
-    text-align: left;
+    width: 152px;
+    text-align: right;
 }
 
 .health-bar-border {
