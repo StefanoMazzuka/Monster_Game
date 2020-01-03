@@ -52,9 +52,6 @@ $(function () {
 
     playPlayer();
 
-    //if (player.healthPercentage == 0) Popup.Show = function("You lose");
-    //if (enemy.healthPercentage == 0) Popup.Show = function("You win");
-
     // PLAYER LOGIC
 
     function playPlayer() {
@@ -133,13 +130,13 @@ $(function () {
             var enemyAttack = Math.floor(Math.random() * 4);
             var damage = 0;
             switch (enemyAttack) {
-              case 0: damage = 1;
+              case 0: damage = 5;
                 break;
-              case 1: damage = 5;
+              case 1: damage = 10;
                 break;
-              case 2: damage = 10;
+              case 2: damage = 15;
                 break;
-              case 3: damage = 15;
+              case 3: damage = 20;
                 break;
               default:
                 break;
