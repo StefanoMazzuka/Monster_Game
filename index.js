@@ -42,7 +42,7 @@ $(function () {
     });
 
     function updateHealthBar() {
-    $('#enemy-health-percentage').text(health + '%');
+    $('#enemy-health-percentage').text(health + '% Enemy');
     $('#enemy-health-bar').animate({
         'width': health + "%"
         }, 400);
