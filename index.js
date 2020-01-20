@@ -8,7 +8,6 @@ $(function () {
     var damageSound = new sound("resources/damage.mp3");
 
     let currentTurn = 0
-    let win = false;
 
     let totalHealth = 100;
     let health = 100;
@@ -48,14 +47,11 @@ $(function () {
         damage: 15
     };
 
-    // GAME LOGIC
-
-    playPlayer();
-
     // PLAYER LOGIC
 
     function playPlayer() {
-        enableAttacks();
+        if (player.healthPercentage == dead) endGame("YO LOSE!");
+        else enableAttacks();
     }
 
     function nextTurn() {
@@ -63,7 +59,12 @@ $(function () {
         attackSound.play();
         updateHealthBar(enemy.healthPercentageId, enemy.healthBarId, enemy.healthPercentage);
         blink(enemy.imgId);
-        playEnemy();
+        if (enemy.healthPercentage == dead) endGame("YOU WIN!");
+        else playEnemy();
+    }
+
+    function endGame(result) {
+        $("#battle-result").text(result);
     }
 
     function enableAttacks() {
@@ -126,6 +127,7 @@ $(function () {
     // ENEMY LOGIC
 
     function playEnemy() {
+        disableAttacks();
         setTimeout(function(){
             var enemyAttack = Math.floor(Math.random() * 4);
             var damage = 0;
@@ -147,7 +149,6 @@ $(function () {
             else player.healthPercentage = dead;
             updateHealthBar(player.healthPercentageId, player.healthBarId, player.healthPercentage);
             blink(player.imgId);
-            disableAttacks();
             playPlayer();
         }, 1000);
     }

@@ -40,8 +40,11 @@ img {
     background-color: #00ff99;
 }
 
-#separator {
+#battle-result {
     height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button {
