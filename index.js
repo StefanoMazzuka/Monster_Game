@@ -62,11 +62,11 @@ $(function () {
         info: 'Pedromon tira una flash. Es muy efectivo.'
     };
     let attackTwoEnemy = {
-        damage: 12,
+        damage: 15,
         info: 'Pedromon usó Síndrome de Korsakoff y Delirium Tremens.'
     };
     let attackThreeEnemy = {
-        damage: 6,
+        damage: 10,
         info: 'Pedromon dice que eres manco al CS:GO. No es muy efectivo.'
     };
     let attackFourEnemy = {
@@ -268,7 +268,7 @@ $(function () {
     function blur(imgId) {
         blurTime = 1;
         $(imgId).css("filter", "blur(4px)");
-        attackOne.damage = 14;
+        attackOne.damage = 17;
     }
 
     function notBlur(imgId) {
