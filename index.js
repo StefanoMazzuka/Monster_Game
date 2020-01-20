@@ -28,22 +28,22 @@ $(function () {
 
     let attackOne = {
         id: '#attack-one',
-        name: 'Cosquillas',
-        damage: 1
+        name: 'Sendo coñazo',
+        damage: 15
     };
     let attackTwo = {
         id: '#attack-two',
-        name: 'Moder oreja',
-        damage: 5
+        name: 'Arepita',
+        damage: 10
     };
     let attackThree = {
         id: '#attack-three',
-        name: 'Patada rodilla',
+        name: 'Beber ron',
         damage: 10
     };
     let attackFour = {
         id: '#attack-four',
-        name: 'Sendo coñazo',
+        name: 'Eres de Albacete',
         damage: 15
     };
 
@@ -54,11 +54,11 @@ $(function () {
         else enableAttacks();
     }
 
-    function nextTurn() {
+    function nextTurn(attackId) {
         disableAttacks();
         attackSound.play();
         updateHealthBar(enemy.healthPercentageId, enemy.healthBarId, enemy.healthPercentage);
-        blink(enemy.imgId);
+        if (attackId == 1) blink(enemy.imgId);
         if (enemy.healthPercentage == dead) endGame("YOU WIN!");
         else playEnemy();
     }
@@ -86,16 +86,17 @@ $(function () {
             $(player.imgId).shake();
             if (enemy.healthPercentage >= attackOne.damage) enemy.healthPercentage -= attackOne.damage;
             else enemy.healthPercentage = dead;
-            nextTurn();
+            nextTurn(1);
         }
     });
 
     $(attackTwo.id).on({
         'click': function () {
             $(player.imgId).shake();
-            if (enemy.healthPercentage >= attackTwo.damage) enemy.healthPercentage -= attackTwo.damage;
-            else enemy.healthPercentage = dead;
-            nextTurn();
+            if (player.healthPercentage + attackTwo.damage <= totalHealth) player.healthPercentage += attackTwo.damage;
+            else player.healthPercentage = totalHealth;
+            updateHealthBar(player.healthPercentageId, player.healthBarId, player.healthPercentage);
+            nextTurn(2);
         }
     });
 
@@ -104,7 +105,7 @@ $(function () {
             $(player.imgId).shake();
             if (enemy.healthPercentage >= attackThree.damage) enemy.healthPercentage -= attackThree.damage;
             else enemy.healthPercentage = dead;
-            nextTurn();
+            nextTurn(3);
         }
     });
 
@@ -113,7 +114,7 @@ $(function () {
             $(player.imgId).shake();
             if (enemy.healthPercentage >= attackFour.damage) enemy.healthPercentage -= attackFour.damage;
             else enemy.healthPercentage = dead;
-            nextTurn();
+            nextTurn(4);
         }
     });
 
