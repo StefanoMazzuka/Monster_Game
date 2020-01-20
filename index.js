@@ -77,7 +77,7 @@ $(function () {
     // PLAYER LOGIC
 
     function playPlayer() {
-        if (player.healthPercentage == dead) endGame("YO LOSE!");
+        if (player.healthPercentage == dead) endGame("YOU LOSE!");
         else enableAttacks();
     }
 
