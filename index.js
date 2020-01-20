@@ -7,6 +7,8 @@ $(function () {
     var attackSound = new sound("resources/attack.mp3");
     var damageSound = new sound("resources/damage.mp3");
     var rumSound = new sound("resources/rum.mp3");
+    var eatSound = new sound("resources/eat.mp3");
+    var confusedSound = new sound("resources/confused.mp3");
 
     let currentTurn = 0
 
@@ -51,7 +53,7 @@ $(function () {
         name: 'Confundir',
         damage: false,
         info: 'Stefanomon grita ¡No es coña, hablo en serio!. Pedromon está confundido.',
-        info2: '¡Pedromon está tan confuso y se hirió a sí mismo!',
+        info2: '¡Pedromon está tan confuso que se hirió a sí mismo!',
         max: 2
     };
 
@@ -124,6 +126,7 @@ $(function () {
             if (player.healthPercentage + attackTwo.damage <= totalHealth) player.healthPercentage += attackTwo.damage;
             else player.healthPercentage = totalHealth;
             updateHealthBar(player.healthPercentageId, player.healthBarId, player.healthPercentage);
+            eatSound.play();
             setInfo(attackTwo.info);
             nextTurn(2);
         }
@@ -143,6 +146,7 @@ $(function () {
         'click': function () {
             $(player.imgId).shake();
             attackFour.damage = true;
+            confusedSound.play();
             setInfo(attackFour.info);
             attackFour.max--;
             updateAttackFour();
