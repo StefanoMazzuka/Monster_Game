@@ -84,8 +84,6 @@ $(function () {
     function nextTurn(attackId) {
         disableAttacks();
         updateHealthBar(enemy.healthPercentageId, enemy.healthBarId, enemy.healthPercentage);
-        if (blurTime > 0) blurTime--;
-        else notBlur(player.imgId);
         if (attackId == 1) blink(enemy.imgId);
         if (enemy.healthPercentage == dead) endGame("YOU WIN!");
         else playEnemy();
@@ -114,6 +112,10 @@ $(function () {
             $(player.imgId).shake();
             if (enemy.healthPercentage >= attackOne.damage) enemy.healthPercentage -= attackOne.damage;
             else enemy.healthPercentage = dead;
+            if (blurTime > 0) {
+                blurTime--;
+                notBlur(player.imgId);
+            }
             attackSound.play();
             setInfo(attackOne.info);
             nextTurn(1);
