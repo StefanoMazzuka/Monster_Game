@@ -6,12 +6,15 @@ $(function () {
 
     var attackSound = new sound("resources/attack.mp3");
     var damageSound = new sound("resources/damage.mp3");
+    var rumSound = new sound("resources/rum.mp3");
 
     let currentTurn = 0
 
     let totalHealth = 100;
     let health = 100;
     let dead = 0;
+
+    let blurTime = 1;
 
     let player = {
         imgId: '#player-img',
@@ -26,25 +29,47 @@ $(function () {
         healthPercentage: totalHealth,
     };
 
-    let attackOne = {
+    var attackOne = {
         id: '#attack-one',
         name: 'Sendo coñazo',
-        damage: 15
+        damage: 7,
+        info: 'Stefanomon le metió tremendo golpe a Pedromon. Es muy efectivo.'
     };
     let attackTwo = {
         id: '#attack-two',
         name: 'Arepita',
-        damage: 10
+        damage: 14,
+        info: 'Stefanomon comió una arepita... Estaba increíble.'
     };
     let attackThree = {
         id: '#attack-three',
         name: 'Beber ron',
-        damage: 10
+        info: 'Stefanomon se echó un trago de ron. Ahora es más fuerte pero... está mareado.'
     };
     let attackFour = {
         id: '#attack-four',
-        name: 'Eres de Albacete',
-        damage: 15
+        name: 'Confundir',
+        damage: false,
+        info: 'Stefanomon grita ¡No es coña, hablo en serio!. Pedromon está confundido.',
+        info2: '¡Pedromon está tan confuso y se hirió a sí mismo!',
+        max: 2
+    };
+
+    var attackOneEnemy = {
+        damage: 20,
+        info: 'Pedromon tira una flash. Es muy efectivo.'
+    };
+    let attackTwoEnemy = {
+        damage: 12,
+        info: 'Pedromon usó Síndrome de Korsakoff y Delirium Tremens.'
+    };
+    let attackThreeEnemy = {
+        damage: 6,
+        info: 'Pedromon dice que eres manco al CS:GO. No es muy efectivo.'
+    };
+    let attackFourEnemy = {
+        damage: 2,
+        info: 'Pedromon usó cosquillas. No es muy efectivo.'
     };
 
     // PLAYER LOGIC
@@ -56,8 +81,9 @@ $(function () {
 
     function nextTurn(attackId) {
         disableAttacks();
-        attackSound.play();
         updateHealthBar(enemy.healthPercentageId, enemy.healthBarId, enemy.healthPercentage);
+        if (blurTime > 0) blurTime--;
+        else notBlur(player.imgId);
         if (attackId == 1) blink(enemy.imgId);
         if (enemy.healthPercentage == dead) endGame("YOU WIN!");
         else playEnemy();
@@ -71,7 +97,7 @@ $(function () {
         $(attackOne.id).prop('disabled', false);
         $(attackTwo.id).prop('disabled', false);
         $(attackThree.id).prop('disabled', false);
-        $(attackFour.id).prop('disabled', false);
+        if (attackFour.max != 0) $(attackFour.id).prop('disabled', false);
     }
 
     function disableAttacks() {
@@ -86,6 +112,8 @@ $(function () {
             $(player.imgId).shake();
             if (enemy.healthPercentage >= attackOne.damage) enemy.healthPercentage -= attackOne.damage;
             else enemy.healthPercentage = dead;
+            attackSound.play();
+            setInfo(attackOne.info);
             nextTurn(1);
         }
     });
@@ -96,6 +124,7 @@ $(function () {
             if (player.healthPercentage + attackTwo.damage <= totalHealth) player.healthPercentage += attackTwo.damage;
             else player.healthPercentage = totalHealth;
             updateHealthBar(player.healthPercentageId, player.healthBarId, player.healthPercentage);
+            setInfo(attackTwo.info);
             nextTurn(2);
         }
     });
@@ -103,8 +132,9 @@ $(function () {
     $(attackThree.id).on({
         'click': function () {
             $(player.imgId).shake();
-            if (enemy.healthPercentage >= attackThree.damage) enemy.healthPercentage -= attackThree.damage;
-            else enemy.healthPercentage = dead;
+            blur(player.imgId)
+            rumSound.play();
+            setInfo(attackThree.info);
             nextTurn(3);
         }
     });
@@ -112,11 +142,17 @@ $(function () {
     $(attackFour.id).on({
         'click': function () {
             $(player.imgId).shake();
-            if (enemy.healthPercentage >= attackFour.damage) enemy.healthPercentage -= attackFour.damage;
-            else enemy.healthPercentage = dead;
+            attackFour.damage = true;
+            setInfo(attackFour.info);
+            attackFour.max--;
+            updateAttackFour();
             nextTurn(4);
         }
     });
+
+    function updateAttackFour() {
+        $(attackFour.id).text("Confundir " + attackFour.max + '/2');
+    }
 
     function updateHealthBar(healthPercentageId, healthBarId, healthPercentage) {
         $(healthPercentageId).text(healthPercentage + '/' + totalHealth);
@@ -133,25 +169,42 @@ $(function () {
             var enemyAttack = Math.floor(Math.random() * 4);
             var damage = 0;
             switch (enemyAttack) {
-              case 0: damage = 5;
+              case 0: damage = attackOneEnemy.damage;
+                if (attackFour.damage) setInfo(attackFour.info2);
+                else setInfo(attackOneEnemy.info);
                 break;
-              case 1: damage = 10;
+              case 1: damage = attackTwoEnemy.damage;
+                if (attackFour.damage) setInfo(attackFour.info2);
+                else setInfo(attackTwoEnemy.info);
                 break;
-              case 2: damage = 15;
+              case 2: damage = attackThreeEnemy.damage;
+                if (attackFour.damage) setInfo(attackFour.info2);
+                else setInfo(attackThreeEnemy.info);
                 break;
-              case 3: damage = 20;
+              case 3: damage = attackFourEnemy.damage;
+                if (attackFour.damage) setInfo(attackFour.info2);
+                else setInfo(attackFourEnemy.info);
                 break;
               default:
                 break;
             }
             $(enemy.imgId).shake();
            damageSound.play();
-            if (player.healthPercentage >= damage) player.healthPercentage -= damage;
-            else player.healthPercentage = dead;
-            updateHealthBar(player.healthPercentageId, player.healthBarId, player.healthPercentage);
-            blink(player.imgId);
-            playPlayer();
-        }, 1000);
+           if (attackFour.damage) {
+                if (enemy.healthPercentage >= damage) enemy.healthPercentage -= damage;
+                else enemy.healthPercentage = dead;
+                attackFour.damage = false;
+                updateHealthBar(enemy.healthPercentageId, enemy.healthBarId, enemy.healthPercentage);
+                blink(enemy.imgId);
+           }
+           else {
+                if (player.healthPercentage >= damage) player.healthPercentage -= damage;
+                else player.healthPercentage = dead;
+                updateHealthBar(player.healthPercentageId, player.healthBarId, player.healthPercentage);
+                blink(player.imgId);
+           }
+           playPlayer();
+        }, 3000);
     }
 
     // SOUNDS
@@ -169,6 +222,12 @@ $(function () {
       this.stop = function(){
         this.sound.pause();
       }
+    }
+
+    // INFO TEXT
+
+    function setInfo(text) {
+        $("#info").text(text);
     }
 
     // ANIMATIONS
@@ -200,5 +259,16 @@ $(function () {
             "opacity": 1
             }, 70);
         }
+    }
+
+    function blur(imgId) {
+        blurTime = 1;
+        $(imgId).css("filter", "blur(4px)");
+        attackOne.damage = 14;
+    }
+
+    function notBlur(imgId) {
+        $(imgId).css("filter", "");
+        attackOne.damage = 7;
     }
 });
