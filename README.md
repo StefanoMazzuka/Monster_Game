@@ -8,4 +8,4 @@ Try to defeat Pedro using hilarious and creative attacks.
 ---
 
 ## 🖼️ Screenshot
-![Monster Game Screenshot](f9e82aad-fd35-4a17-9547-dd6f45097e75.png)
+![Monster Game Screenshot](https://github.com/StefanoMazzuka/Monster_Game/blob/master/resources/screenshot.png)
